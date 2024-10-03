@@ -1,0 +1,309 @@
+import pandas as pd
+import matplotlib. pyplot as plt
+import seaborn as sns
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+data = pd.read_csv("/content/vfd.csv", encoding="latin1")
+data
+data.nunique()
+data.head()#Splitting the Dataset: Training and Testing
+data.tail()
+#dependent_variable
+x = data.iloc[:,0:-1]
+print(x)
+#independent_variable
+y = data. iloc[:,-1:]
+print(y)
+data.shape
+data.isnull().sum()
+data.dtypes
+data.head()
+data.tail()
+
+#the describe() method returns description of data in DataFrame
+data.describe()
+#the info() method prints information of the database
+data.info()
+#Splitting the Dataset: Training and Testing
+from sklearn.model_selection import train_test_split
+x_train,x_test,y_train,y_test = train_test_split(x,y,test_size=1/3,random_state=0)
+print(data.columns)
+data['Temperature'].value_counts()
+len(x_test)
+len(y_test)
+len(y_train)
+len(x_train)
+#dependent_variable
+x = data.iloc[:,0:-1]
+x
+#independent_variable
+y = data.iloc[:,-1:]
+y
+
+from sklearn.linear_model import LogisticRegression
+x_train,x_test,y_train,y_test = train_test_split(x,y,test_size=1/3,random_state=0)
+print(x_train.shape)
+print(y_train.shape)
+print(x_train.dtypes)
+x_train = pd.get_dummies(x_train)
+x_test = pd.get_dummies(x_test)
+Logistic Regression
+#Fitting simple linear regression to the training test
+Model1 = LogisticRegression()
+print(x_train.isnull().sum())
+print(y_train.isnull().sum())
+import numpy as np
+y_train_numeric = pd.to_numeric(y_train.iloc[:, 0], errors='coerce')
+print(np.isinf(y_train_numeric).sum())
+x_train = x_train.dropna()
+y_train = y_train.dropna()
+print(x_train.columns)
+x_train['Temperature'].fillna(x_train['Temperature'].mean(), inplace=True)
+print(x_train.isnull().sum())
+print(np.isinf(x_train).sum())
+y_train_numeric = pd.to_numeric(y_train.iloc[:, 0], errors='coerce')
+print(np.isinf(y_train_numeric).sum())
+x_train.replace([np.inf, -np.inf], np.nan, inplace=True)
+x_train.fillna(method="ffill", inplace=True)  # Example: Forward fill
+print(x_train.describe())  # Look for unusually high values in max or std
+#Decision Tree
+from sklearn.tree import DecisionTreeClassifier
+tree = DecisionTreeClassifier(random_state = 0,criterion = "entropy")
+tree.fit(x_train, y_train)
+prediction3 = tree.predict(x_test) # Make sure to use tree.predict here
+x_train.head()
+y_train.head()
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import confusion_matrix
+from sklearn.metrics import accuracy_score
+from sklearn.metrics import precision_score
+from sklearn.metrics import recall_score
+from sklearn.metrics import f1_score
+model1 = DecisionTreeClassifier(random_state = 0,criterion = "entropy")
+model1.fit(x_train, y_train.values.ravel())
+# Convert x_train to numeric and handle errors
+x_train = x_train.apply(pd.to_numeric, errors='coerce').fillna(0)
+
+# Convert y_train to numeric
+y_train = y_train.apply(pd.to_numeric, errors='coerce')
+
+# Fit the model
+model1.fit(x_train, y_train.values.ravel())
+# Make sure you have defined and trained Model1
+prediction1 = model1.predict(x_test)
+
+from sklearn.metrics import confusion_matrix
+from sklearn.metrics import accuracy_score
+confusion_matrix(y_test,prediction1)
+from sklearn.metrics import confusion_matrix
+from sklearn.metrics import accuracy_score
+confusion_matrix(y_test,prediction1)
+ accuracy_score(y_test,prediction1)
+from sklearn.metrics import precision_score
+probs = model1.predict_proba(x_test)
+precision_score(y_test, prediction1, average = None)
+from sklearn.metrics import precision_score, recall_score, f1_score
+
+# assuming your predicted and actual labels are stored in variables y_pred and y_true, respectively
+accuracy = accuracy_score(y_test, prediction1)
+precision = precision_score(y_test, prediction1)
+recall = recall_score(y_test, prediction1)
+f1 = f1_score(y_test, prediction1)
+
+print("Accuracy:", accuracy)
+print("Precision:", precision)
+print("Recall:", recall)
+print("F1 score:", f1)
+from sklearn.metrics import recall_score
+from sklearn.metrics import f1_score
+recall_score(y_test, prediction1, average = None)
+ f1_score(y_test, prediction1, average = None)
+cm = confusion_matrix(y_true = y_test, y_pred = prediction1)
+#plot_confusion_matrix(cm,level,title = "confusion_matrix")
+sns.heatmap(cm, annot=True, cmap="Blues", fmt="d")
+plt.xlabel("Predicted Labels")
+plt.ylabel("True Labels")
+plt.title("Confusion Matrix")
+plt.show()
+KNN
+ from sklearn.neighbors import KNeighborsClassifier
+#Fitting K-NN to the Training set
+classifier = KNeighborsClassifier(n_neighbors = 3, metric = "minkowski", p = 2)
+classifier.fit(x_train, y_train)
+#Predicting the Test set result
+prediction2 = classifier.predict(x_test)
+prediction2
+from sklearn.metrics import confusion_matrix
+from sklearn.metrics import accuracy_score
+confusion_matrix(y_test,prediction2)
+from sklearn.metrics import precision_score, recall_score, f1_score
+
+# assuming your predicted and actual labels are stored in variables y_pred and y_true, respectively
+accuracy = accuracy_score(y_test, prediction2)
+precision = precision_score(y_test, prediction2)
+recall = recall_score(y_test, prediction2)
+f1 = f1_score(y_test, prediction2)
+
+print("Accuracy:", accuracy)
+print("Precision:", precision)
+print("Recall:", recall)
+print("F1 score:", f1)
+accuracy_score(y_test,prediction2)
+probs = Model1.predict_proba(x_test)
+precision_score(y_test, prediction2, average = None)
+f1_score(y_test, prediction2, average = None)
+cm = confusion_matrix(y_true = y_test, y_pred = prediction2)
+#plot_confusion_matrix(cm,level,title = "confusion_matrix")
+sns.heatmap(cm, annot=True, cmap="Blues", fmt="d")
+plt.xlabel("Predicted Labels")
+plt.ylabel("True Labels")
+plt.title("Confusion Matrix")
+plt.show()
+Decision Tree
+#Decision Tree
+from sklearn.tree import DecisionTreeClassifier
+tree = DecisionTreeClassifier(random_state = 0,criterion = "entropy")
+tree.fit(x_train, y_train)
+prediction3 = classifier.predict(x_test)
+prediction3
+confusion_matrix(y_test,prediction3)
+from sklearn.metrics import precision_score, recall_score, f1_score
+
+# assuming your predicted and actual labels are stored in variables y_pred and y_true, respectively
+accuracy = accuracy_score(y_test, prediction3)
+precision = precision_score(y_test, prediction3)
+recall = recall_score(y_test, prediction3)
+f1 = f1_score(y_test, prediction3)
+
+print("Accuracy:", accuracy)
+print("Precision:", precision)
+print("Recall:", recall)
+print("F1 score:", f1)
+accuracy_score(y_test,prediction3)
+probs = Model1.predict_proba(x_test)
+precision_score(y_test, prediction3, average = None)
+recall_score(y_test, prediction3, average = None)
+f1_score(y_test, prediction3, average = None)
+cm = confusion_matrix(y_true = y_test, y_pred = prediction3)
+#plot_confusion_matrix(cm,level,title = "confusion_matrix")
+sns.heatmap(cm, annot=True, cmap="Blues", fmt="d")
+plt.xlabel("Predicted Labels")
+plt.ylabel("True Labels")
+plt.title("Confusion Matrix")
+plt.show()
+SVM
+#Support Vector Machine
+from sklearn.ensemble import BaggingClassifier
+from sklearn.multiclass import OneVsRestClassifier
+from sklearn.svm import SVC
+svm = OneVsRestClassifier(BaggingClassifier(SVC(C=10,kernel='rbf',random_state=9,probability=True),n_jobs=-1))
+svm.fit(x_train, y_train)
+prediction4 = svm.predict(x_test)
+confusion_matrix(y_test,prediction4)
+from sklearn.metrics import precision_score, recall_score, f1_score
+
+# assuming your predicted and actual labels are stored in variables y_pred and y_true, respectively
+accuracy = accuracy_score(y_test, prediction4)
+precision = precision_score(y_test, prediction4)
+recall = recall_score(y_test, prediction4)
+f1 = f1_score(y_test, prediction4)
+
+print("Accuracy:", accuracy)
+print("Precision:", precision)
+print("Recall:", recall)
+print("F1 score:", f1)
+accuracy_score(y_test,prediction4)
+probs = model1.predict_proba(x_test)
+precision_score(y_test, prediction4, average = None)
+recall_score(y_test, prediction4, average = None)
+f1_score(y_test, prediction4, average = None)
+cm = confusion_matrix(y_true = y_test, y_pred = prediction4)
+#plot_confusion_matrix(cm,level,title = "confusion_matrix")
+sns.heatmap(cm, annot=True, cmap="Blues", fmt="d")
+plt.xlabel("Predicted Labels")
+plt.ylabel("True Labels")
+plt.title("Confusion Matrix")
+plt.show()
+Naive Bayes
+from sklearn.naive_bayes import GaussianNB
+nbcla = GaussianNB()
+nbcla.fit(x_train, y_train)
+prediction5 = nbcla.predict(x_test)
+from sklearn.metrics import confusion_matrix
+from sklearn.metrics import accuracy_score
+confusion_matrix(y_test,prediction5)
+from sklearn.metrics import precision_score, recall_score, f1_score
+
+# assuming your predicted and actual labels are stored in variables y_pred and y_true, respectively
+accuracy = accuracy_score(y_test, prediction5)
+precision = precision_score(y_test, prediction5)
+recall = recall_score(y_test, prediction5)
+f1 = f1_score(y_test, prediction5)
+
+print("Accuracy:", accuracy)
+print("Precision:", precision)
+print("Recall:", recall)
+print("F1 score:", f1)
+accuracy_score(y_test,prediction5)
+probs = Model1.predict_proba(x_test)
+precision_score(y_test, prediction5, average = None)
+recall_score(y_test, prediction5, average = None)
+f1_score(y_test, prediction5, average = None)
+cm = confusion_matrix(y_true = y_test, y_pred = prediction5)
+#plot_confusion_matrix(cm,level,title = "confusion_matrix")
+sns.heatmap(cm, annot=True, cmap="Blues", fmt="d")
+plt.xlabel("Predicted Labels")
+plt.ylabel("True Labels")
+plt.title("Confusion Matrix")
+plt.show()
+Random Forest
+from sklearn.ensemble import RandomForestClassifier
+
+# Initialize the classifier
+rf_classifier = RandomForestClassifier(n_estimators=100, random_state=42)
+
+# Train the model using training dataset
+rf_classifier.fit(x_train, y_train)
+
+# Make predictions on test dataset
+prediction6 = rf_classifier.predict(x_test)
+
+# Evaluate the accuracy of the model
+#accuracy = rf_classifier.score(x_test, y_test)
+#print("Accuracy:", accuracy)
+confusion_matrix(y_test,prediction6)
+from sklearn.metrics import precision_score, recall_score, f1_score
+
+# assuming your predicted and actual labels are stored in variables y_pred and y_true, respectively
+accuracy = accuracy_score(y_test, prediction6)
+precision = precision_score(y_test, prediction6)
+recall = recall_score(y_test, prediction6)
+f1 = f1_score(y_test, prediction6)
+
+print("Accuracy:", accuracy)
+print("Precision:", precision)
+print("Recall:", recall)
+print("F1 score:", f1)
+accuracy_score(y_test,prediction6)
+probs = Model1.predict_proba(x_test)
+precision_score(y_test, prediction6, average = None)
+recall_score(y_test, prediction6, average = None)
+f1_score(y_test, prediction6, average = None)
+cm = confusion_matrix(y_true = y_test, y_pred = prediction6)
+#plot_confusion_matrix(cm,level,title = "confusion_matrix")
+sns.heatmap(cm, annot=True, cmap="Blues", fmt="d")
+plt.xlabel("Predicted Labels")
+plt.ylabel("True Labels")
+plt.title("Confusion Matrix")
+plt.show()
+num_list = list(data.columns)
+
+fig = plt.figure(figsize=(10,30))
+
+for i in range(len(num_list)):
+    plt.subplot(8,2,i+1)
+    plt.title(num_list[i])
+    plt.xticks(rotation=45)
+    plt.hist(data[num_list[i]],color='blue',alpha=0.5)
+
+plt.tight_layout()
